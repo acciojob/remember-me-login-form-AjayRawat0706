@@ -1,41 +1,35 @@
 //your JS code here. If required.
-document.addEventListener("DOMContentLoaded", () => {
-  const usernameInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const checkbox = document.getElementById("checkbox");
-  const submitBtn = document.getElementById("submit");
-  const existingBtn = document.getElementById("existing");
-  const form = document.getElementById("loginForm");
 
-  // Show "Login as existing user" if localStorage contains credentials
-  const savedUsername = localStorage.getItem("username");
-  const savedPassword = localStorage.getItem("password");
-  if (savedUsername && savedPassword) {
-    existingBtn.style.display = "block";
-  }
+const submitBtn = document.getElementById("submit");
+const existingUserBtn = document.getElementById("existing");
+if(localStorage.getItem("username") && localStorage.getItem("password")){
+	existingUserBtn.style.display= "block";
+}else{
+	existingUserBtn.style.display= "none";
+}
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+existingUserBtn.addEventListener("click", ()=>{
+	alert(`Logged in as ${localStorage.getItem("username")}`);
+})
 
-    alert(`Logged in as ${username}`);
+submitBtn.addEventListener("click", ()=>{
+	const rememberMe = document.getElementById("checkbox");
+	console.log("rembermebtn",rememberMe.checked)
+	const usernameInput = document.getElementById("username").value;
+	const userPassword = document.getElementById("password").value;
 
-    if (checkbox.checked) {
-      localStorage.setItem("username", username);
-      localStorage.setItem("password", password);
-      existingBtn.style.display = "block";
-    } else {
-      localStorage.removeItem("username");
-      localStorage.removeItem("password");
-      existingBtn.style.display = "none";
-    }
-  });
-
-  existingBtn.addEventListener("click", () => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      alert(`Logged in as ${storedUsername}`);
-    }
-  });
-});
+	if(rememberMe.checked){
+		//save in local storage
+		localStorage.setItem("username", usernameInput);
+		localStorage.setItem("password", userPassword);
+	}else{
+		localStorage.removeItem("username");
+		localStorage.removeItem("password");
+	}
+	alert(`Logged in as ${usernameInput}`);
+	
+	
+	console.log(usernameInput);
+	console.log(userPassword);
+	console.log(rememberMe.checked);
+})
